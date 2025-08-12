@@ -33,8 +33,14 @@ class SemanticMemory:
         """
         try:
             self.conn = psycopg2.connect(self.conn_string)
+            with self.conn.cursor() as cur:
+                try:
+                    cur.execute("CREATE EXTENSION vector;")
+                    self.conn.commit()
+                except psycopg2.errors.DuplicateObject:
+                    self.conn.rollback()
             register_vector(self.conn)
-            logging.info("Successfully connected to the database.")
+            logging.info("Successfully connected to the database and ensured vector extension is enabled.")
         except psycopg2.OperationalError as e:
             logging.error(f"Could not connect to the database: {e}")
             raise
