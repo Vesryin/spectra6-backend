@@ -2,7 +2,7 @@
 builder = "NIXPACKS"
 buildCommand = "poetry install"
 
-[build.nixpacks]
+[nixpacks.pkgs]
 pkgs = ["build-essential", "python3-dev"]
 
 [deploy]
