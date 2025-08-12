@@ -1,8 +1,18 @@
 import responder
+import os
+from dotenv import load_dotenv
 from .engine.emotional_state import EmotionalState, Emotion
+from .engine.semantic_memory import SemanticMemory
+
+load_dotenv()
 
 api = responder.API()
 emotional_engine = EmotionalState()
+db_conn_string = os.getenv("DATABASE_URL")
+if db_conn_string:
+    memory_engine = SemanticMemory(db_conn_string)
+else:
+    memory_engine = None
 
 @api.route("/")
 def hello_world(req, resp):
@@ -56,15 +66,28 @@ async def memory(req, resp):
     """
     Endpoint to manage and query memory.
     """
+    if not memory_engine:
+        resp.status_code = 503
+        resp.media = {"error": "Memory engine not available. Check DATABASE_URL."}
+        return
+
     if req.method == "get":
         query = req.params.get("q")
-        # TODO: Query memory based on the query string
-        resp.media = {"memory": f"Memory results for: {query}"}
+        if query:
+            results = memory_engine.search_memory(query)
+            resp.media = {"results": results}
+        else:
+            resp.status_code = 400
+            resp.media = {"error": "Query parameter 'q' is required."}
     elif req.method == "post":
         data = await req.media()
         memory_to_add = data.get("memory")
-        # TODO: Add new memory
-        resp.media = {"status": f"Memory added: {memory_to_add}"}
+        if memory_to_add:
+            memory_engine.add_memory(memory_to_add)
+            resp.media = {"status": f"Memory added: {memory_to_add}"}
+        else:
+            resp.status_code = 400
+            resp.media = {"error": "Memory not provided in request body."}
     else:
         resp.status_code = 405
         resp.text = "Method Not Allowed"
