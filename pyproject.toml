@@ -8,11 +8,11 @@ packages = [{include = "app", from = "src"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 responder = "^2.0.7"
-typesystem = "==0.2.5"
+typesystem = "0.2.5"
 psycopg2-binary = "^2.9.0"
 pgvector = "^0.2.0"
 sentence-transformers = "^2.2.0"
-uvicorn = "<0.13.3"
+uvicorn = { version = "^0.12.0", extras = ["standard"] }
 python-dotenv = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
