@@ -6,8 +6,9 @@ authors = ["Vesryin <vesryin@gmail.com>"]
 packages = [{include = "app", from = "src"}]
 
 [tool.poetry.dependencies]
-python = ">=3.10"
+python = ">=3.10, <3.13"
 responder = "*"
+typesystem = "==0.2.5"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"
