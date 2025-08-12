@@ -6,7 +6,7 @@ authors = ["Vesryin <vesryin@gmail.com>"]
 packages = [{include = "app", from = "src"}]
 
 [tool.poetry.dependencies]
-python = ">=3.10, <3.13"
+python = "^3.10"
 responder = "*"
 typesystem = "==0.2.5"
 psycopg2-binary = "*"
