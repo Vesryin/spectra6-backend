@@ -1,0 +1,8 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "poetry install"
+
+[deploy]
+startCommand = "poetry run python src/app"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
