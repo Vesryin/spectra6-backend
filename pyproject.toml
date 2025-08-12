@@ -12,6 +12,7 @@ typesystem = "==0.2.5"
 psycopg2-binary = "*"
 pgvector = "*"
 sentence-transformers = "*"
+uvicorn = "==0.13.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"

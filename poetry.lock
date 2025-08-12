@@ -2170,14 +2170,14 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "uvicorn"
-version = "0.13.2"
+version = "0.13.0"
 description = "The lightning-fast ASGI server."
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "uvicorn-0.13.2-py3-none-any.whl", hash = "sha256:6707fa7f4dbd86fd6982a2d4ecdaad2704e4514d23a1e4278104311288b04691"},
-    {file = "uvicorn-0.13.2.tar.gz", hash = "sha256:d19ca083bebd212843e01f689900e5c637a292c63bb336c7f0735a99300a5f38"},
+    {file = "uvicorn-0.13.0-py3-none-any.whl", hash = "sha256:5123606e0f1d15ffbe0f63161c5078f7c28f350c5eb102435671eae58046db0f"},
+    {file = "uvicorn-0.13.0.tar.gz", hash = "sha256:28420526640d800aabe648038f8e2ea8ba2a8bdc363002eecd5dfc57a0f75ab7"},
 ]
 
 [package.dependencies]
@@ -2309,4 +2309,4 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10, <3.13"
-content-hash = "4a695f2b3f771c947e53b7428f65ef0cac3074fa0ba2fab0e3c516661aeb40dc"
+content-hash = "edf845621721a0c43f4a18094407f9718154463493fcc8b821cee155f05ce6fb"
