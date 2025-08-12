@@ -23,9 +23,19 @@ class SemanticMemory:
         """
         self.conn_string = db_conn_string
         self.conn = None
-        self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        self.model = None
         self._connect()
         self._initialize_db()
+
+    def _get_model(self):
+        """
+        Loads the SentenceTransformer model on demand.
+        """
+        if self.model is None:
+            logging.info("Loading SentenceTransformer model...")
+            self.model = SentenceTransformer('all-MiniLM-L6-v2')
+            logging.info("Model loaded successfully.")
+        return self.model
 
     def _connect(self):
         """
@@ -70,7 +80,8 @@ class SemanticMemory:
         Args:
             text (str): The text content of the memory to add.
         """
-        embedding = self.model.encode(text)
+        model = self._get_model()
+        embedding = model.encode(text)
         with self.conn.cursor() as cur:
             cur.execute("INSERT INTO memories (content, embedding) VALUES (%s, %s)", (text, embedding))
             self.conn.commit()
@@ -88,7 +99,8 @@ class SemanticMemory:
             list: A list of tuples, where each tuple contains the content of a
                   similar memory and its similarity score.
         """
-        query_embedding = self.model.encode(query_text)
+        model = self._get_model()
+        query_embedding = model.encode(query_text)
         with self.conn.cursor() as cur:
             cur.execute("""
                 SELECT content, 1 - (embedding <=> %s) AS similarity
