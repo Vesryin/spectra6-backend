@@ -1,5 +1,5 @@
-import responder
 import os
+import responder
 from dotenv import load_dotenv
 from .engine.emotional_state import EmotionalState, Emotion
 from .engine.semantic_memory import SemanticMemory
@@ -91,6 +91,3 @@ async def memory(req, resp):
     else:
         resp.status_code = 405
         resp.text = "Method Not Allowed"
-
-if __name__ == "__main__":
-    api.run()

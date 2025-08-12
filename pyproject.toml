@@ -7,16 +7,17 @@ packages = [{include = "app", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-responder = "*"
+responder = "^2.0.7"
 typesystem = "==0.2.5"
-psycopg2-binary = "*"
-pgvector = "*"
-sentence-transformers = "*"
-uvicorn = "==0.13.0"
+psycopg2-binary = "^2.9.0"
+pgvector = "^0.2.0"
+sentence-transformers = "^2.2.0"
+uvicorn = "^0.20.0"
+python-dotenv = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "*"
-pytest-mock = "*"
+pytest = "^7.0.0"
+pytest-mock = "^3.10.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
