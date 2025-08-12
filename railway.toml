@@ -2,6 +2,9 @@
 builder = "NIXPACKS"
 buildCommand = "poetry install"
 
+[build.nixpacks]
+pkgs = ["build-essential", "python3-dev"]
+
 [deploy]
 startCommand = "poetry run python src/app"
 restartPolicyType = "ON_FAILURE"
