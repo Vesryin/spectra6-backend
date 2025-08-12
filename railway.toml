@@ -1,6 +1,6 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "poetry install"
+buildCommand = "pip install --upgrade pip && poetry install"
 
 [nixpacks.pkgs]
 pkgs = ["build-essential", "python3-dev"]
