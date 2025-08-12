@@ -1,6 +1,8 @@
 import responder
+from .engine.emotional_state import EmotionalState, Emotion
 
 api = responder.API()
+emotional_engine = EmotionalState()
 
 @api.route("/")
 def hello_world(req, resp):
@@ -26,13 +28,25 @@ async def emotion(req, resp):
     Endpoint to retrieve and update emotional states.
     """
     if req.method == "get":
-        # TODO: Retrieve current emotional state
-        resp.media = {"emotion": "neutral"}
+        current_emotion = emotional_engine.get_state()
+        resp.media = {"emotion": current_emotion.value}
     elif req.method == "post":
         data = await req.media()
-        new_emotion = data.get("emotion")
-        # TODO: Update emotional state
-        resp.media = {"status": f"Emotion updated to {new_emotion}"}
+        new_emotion_str = data.get("emotion")
+        if new_emotion_str:
+            try:
+                new_emotion = Emotion(new_emotion_str.lower())
+                emotional_engine.update_state(new_emotion)
+                resp.media = {"status": f"Emotion updated to {new_emotion.value}"}
+            except ValueError:
+                resp.status_code = 400
+                valid_emotions = [e.value for e in Emotion]
+                resp.media = {
+                    "error": f"Invalid emotion '{new_emotion_str}'. Valid emotions are: {valid_emotions}"
+                }
+        else:
+            resp.status_code = 400
+            resp.media = {"error": "Emotion not provided in request body."}
     else:
         resp.status_code = 405
         resp.text = "Method Not Allowed"
