@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "spectra6-backend"
+version = "0.1.0"
+description = "Backend for Spectra, an advanced AI assistant."
+authors = ["Vesryin <vesryin@gmail.com>"]
+packages = [{include = "app", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+responder = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
