@@ -1,16 +1,15 @@
 import os
 import uvicorn
-from . import api
+from .factory import create_app
 
 if __name__ == "__main__":
+    api = create_app()
     port = int(os.getenv("PORT", 8000))
     host = os.getenv("HOST", "0.0.0.0")
     
-    # Use uvicorn to run the responder app
     uvicorn.run(
-        "app:api",
+        api,
         host=host,
         port=port,
-        log_level="info",
-        access_log=True
+        log_level="info"
     )

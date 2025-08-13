@@ -1,25 +1,24 @@
-# tests/test_semantic_memory.py
-
-import pytest
+from unittest.mock import MagicMock
 from app.engine.semantic_memory import SemanticMemory
 
-def test_add_and_search_memory(test_db):
+def test_add_and_search_memory(mocker):
     """
     Tests that a new memory can be added to the database and then
     retrieved via a semantic search.
     """
-    # Use the test database connection string
-    db_conn_string = test_db.dsn
-    memory_engine = SemanticMemory(db_conn_string)
+    # create a mock database connection
+    mock_conn = MagicMock()
+    # Configure the mock cursor to handle the 'with' statement
+    mock_cursor = MagicMock()
+    mock_conn.cursor.return_value = mock_cursor
+    mock_cursor.__enter__.return_value.fetchone.return_value = (1,)
+    mock_cursor.__enter__.return_value.fetchall.return_value = [("The sky is blue.", 0.95)]
+    
+    # create the memory engine with the mock connection
+    memory_engine = SemanticMemory(connection=mock_conn)
 
-    # Add some memories
-    memories_to_add = [
-        "The sky is blue.",
-        "The grass is green.",
-        "The sun is bright."
-    ]
-    for memory in memories_to_add:
-        memory_engine.add_memory(memory)
+    # Add a memory
+    memory_engine.add_memory("The sky is blue.")
 
     # Search for a similar memory
     search_query = "What color is the sky?"

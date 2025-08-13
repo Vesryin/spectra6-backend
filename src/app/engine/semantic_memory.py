@@ -14,7 +14,7 @@ class SemanticMemory:
     Manages Spectra's semantic memory, allowing for storage and retrieval
     of text embeddings using a PostgreSQL database with the pgvector extension.
     """
-    def __init__(self, db_conn_string: str):
+    def __init__(self, db_conn_string: str = None, connection=None):
         """
         Initializes the semantic memory engine and connects to the database.
 
@@ -22,9 +22,10 @@ class SemanticMemory:
             db_conn_string (str): The connection string for the PostgreSQL database.
         """
         self.conn_string = db_conn_string
-        self.conn = None
+        self.conn = connection
         self.model = None
-        self._connect()
+        if self.conn is None:
+            self._connect()
         self._initialize_db()
 
     def _get_model(self):

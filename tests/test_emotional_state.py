@@ -1,5 +1,3 @@
-# tests/test_emotional_state.py
-
 import pytest
 from app.engine.emotional_state import EmotionalState, Emotion
 

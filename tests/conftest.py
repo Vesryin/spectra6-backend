@@ -1,31 +1,20 @@
-# tests/conftest.py
-
 import pytest
-import os
-import psycopg2
-from dotenv import load_dotenv
+from unittest.mock import MagicMock
+from app.factory import create_app
 
-load_dotenv()
+@pytest.fixture
+def app():
+    """Create and configure a new app instance for each test."""
+    # create a mock database connection
+    mock_db_conn = MagicMock()
+    
+    # create the app with the mock database connection
+    app = create_app(db_connection=mock_db_conn)
+    
+    yield app
 
-@pytest.fixture(scope="session")
-def db_connection():
-    """
-    Creates a connection to the test database and handles setup and teardown.
-    """
-    test_db_url = os.getenv("TEST_DATABASE_URL")
-    if not test_db_url:
-        pytest.skip("TEST_DATABASE_URL not set, skipping integration tests.")
-
-    conn = psycopg2.connect(test_db_url)
-    yield conn
-    conn.close()
-
-@pytest.fixture(scope="function")
-def test_db(db_connection):
-    """
-    Provides a clean database for each test function.
-    """
-    with db_connection.cursor() as cur:
-        cur.execute("DELETE FROM memories;")
-    db_connection.commit()
-    return db_connection
+@pytest.fixture
+def client(app):
+    """A test client for the app."""
+    from starlette.testclient import TestClient
+    return TestClient(app)

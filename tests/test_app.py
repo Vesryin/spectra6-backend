@@ -1,10 +1,6 @@
 import pytest
-from starlette.testclient import TestClient
-from app import api
 
-@pytest.fixture
-def client():
-    return TestClient(api)
+# The client fixture is automatically sourced from conftest.py
 
 def test_hello_world(client):
     response = client.get("/")
